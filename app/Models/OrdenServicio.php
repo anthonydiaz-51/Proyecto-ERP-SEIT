@@ -34,4 +34,9 @@ class OrdenServicio extends Model
     {
         return $this->hasMany(OrdenServicioDetalle::class, 'orden_id');
     }
+
+    public function pagos()
+    {
+        return $this->hasMany(Pago::class, 'orden_id');
+    }
 }

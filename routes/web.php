@@ -7,6 +7,7 @@ use App\Http\Controllers\CotizacionController;
 use App\Http\Controllers\OrdenServicioController;
 use App\Http\Controllers\UsuarioController;
 use App\Http\Controllers\VentaController;
+use App\Http\Controllers\PagoController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -26,9 +27,6 @@ Route::middleware('auth')->group(function () {
     Route::get('/modulo-pendiente/{modulo}', function ($modulo) {
         return view('modulo-pendiente', compact('modulo'));
     })->name('modulo.pendiente');
-
-    // --- Rutas temporales, se van reemplazando conforme se construye cada módulo ---
-    Route::get('/finanzas/pagos', fn () => view('modulo-pendiente', ['modulo' => 'pagos']))->name('finanzas.pagos.index');
 });
 
 Route::middleware('auth')->prefix('comercial')->name('comercial.')->group(function () {
@@ -61,6 +59,11 @@ Route::middleware('auth')->prefix('comercial')->name('comercial.')->group(functi
     Route::get('ventas', [VentaController::class, 'index'])
         ->middleware('role:1,2,3')
         ->name('ventas.index');
+});
+
+//Controlaor/ruta de Pagos
+Route::middleware(['auth', 'role:1,2,3'])->prefix('finanzas')->name('finanzas.')->group(function () {
+    Route::resource('pagos', PagoController::class)->except(['show', 'destroy']);
 });
 
 require __DIR__.'/auth.php';
