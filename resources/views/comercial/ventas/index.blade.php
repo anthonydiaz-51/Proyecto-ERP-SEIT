@@ -78,11 +78,14 @@
             </div>
         @endif
 
-        @if($origen !== 'cotizaciones')
+                @if($origen !== 'cotizaciones')
             <div class="bg-white shadow rounded-lg overflow-hidden">
                 <div class="px-6 py-4 border-b flex justify-between items-center">
                     <h3 class="font-medium text-gray-800">Órdenes de servicio entregadas</h3>
-                    <span class="text-sm text-gray-700">Total: <strong>${{ number_format($totalOrdenes, 2) }}</strong></span>
+                    <span class="text-sm text-gray-700">
+                        Total: <strong>${{ number_format($totalOrdenes, 2) }}</strong>
+                        · Cobrado: <strong>${{ number_format($totalCobrado, 2) }}</strong>
+                    </span>
                 </div>
                 <table class="min-w-full divide-y divide-gray-200">
                     <thead class="bg-gray-50">
@@ -91,23 +94,36 @@
                             <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Cliente</th>
                             <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Entrega</th>
                             <th class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase">Costo total</th>
+                            <th class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase">Pagado</th>
+                            <th class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase">Saldo</th>
                             <th class="px-6 py-3"></th>
                         </tr>
                     </thead>
                     <tbody class="divide-y divide-gray-200">
                         @forelse($ordenes as $orden)
+                            @php
+                                $pagado = $orden->pagos_sum_monto ?? 0;
+                                $saldo = ($orden->costo_total ?? 0) - $pagado;
+                            @endphp
                             <tr>
                                 <td class="px-6 py-4 text-sm text-gray-900">{{ $orden->folio }}</td>
                                 <td class="px-6 py-4 text-sm text-gray-500">{{ $orden->cliente->nombre ?? '—' }}</td>
                                 <td class="px-6 py-4 text-sm text-gray-500">{{ $orden->fecha_entrega ?? '—' }}</td>
                                 <td class="px-6 py-4 text-sm text-gray-500 text-right">${{ number_format($orden->costo_total, 2) }}</td>
-                                <td class="px-6 py-4 text-right text-sm">
-                                    <a href="{{ route('sistemas.ordenes.edit', $orden) }}" class="text-indigo-600 hover:underline">Ver</a>
+                                <td class="px-6 py-4 text-sm text-gray-500 text-right">${{ number_format($pagado, 2) }}</td>
+                                <td class="px-6 py-4 text-sm text-right {{ $saldo > 0 ? 'text-red-600' : 'text-green-600' }}">
+                                    ${{ number_format($saldo, 2) }}
+                                </td>
+                                <td class="px-6 py-4 text-right text-sm space-x-3">
+                                    @if($saldo > 0)
+                                        <a href="{{ route('finanzas.pagos.create', ['orden_id' => $orden->id]) }}" class="text-indigo-600 hover:underline">Registrar pago</a>
+                                    @endif
+                                    <a href="{{ route('sistemas.ordenes.edit', $orden) }}" class="text-gray-500 hover:underline">Ver</a>
                                 </td>
                             </tr>
                         @empty
                             <tr>
-                                <td colspan="5" class="px-6 py-4 text-center text-sm text-gray-500">
+                                <td colspan="7" class="px-6 py-4 text-center text-sm text-gray-500">
                                     No hay órdenes entregadas en este periodo.
                                 </td>
                             </tr>

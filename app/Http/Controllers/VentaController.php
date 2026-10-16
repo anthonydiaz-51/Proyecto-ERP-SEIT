@@ -28,6 +28,7 @@ class VentaController extends Controller
 
         if (in_array($origen, ['todas', 'ordenes'])) {
             $ordenes = OrdenServicio::with('cliente')
+                ->withSum('pagos', 'monto')
                 ->where('estado', 'ENTREGADO')
                 ->when($desde, fn ($q) => $q->whereDate('fecha_entrega', '>=', $desde))
                 ->when($hasta, fn ($q) => $q->whereDate('fecha_entrega', '<=', $hasta))
@@ -37,10 +38,11 @@ class VentaController extends Controller
 
         $totalCotizaciones = $cotizaciones->sum('total');
         $totalOrdenes = $ordenes->sum('costo_total');
+        $totalCobrado = $ordenes->sum('pagos_sum_monto');
 
         return view('comercial.ventas.index', compact(
             'cotizaciones', 'ordenes', 'totalCotizaciones', 'totalOrdenes',
-            'desde', 'hasta', 'origen'
+            'totalCobrado', 'desde', 'hasta', 'origen'
         ));
     }
 }
