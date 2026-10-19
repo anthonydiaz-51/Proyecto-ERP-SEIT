@@ -14,6 +14,11 @@ class Cotizacion extends Model
         'estado', 'subtotal', 'descuento', 'impuestos', 'total', 'observaciones',
     ];
 
+    public function ordenes()
+    {
+        return $this->hasMany(OrdenServicio::class, 'cotizacion_id');
+    }
+
     public function cliente()
     {
         return $this->belongsTo(Cliente::class, 'cliente_id');

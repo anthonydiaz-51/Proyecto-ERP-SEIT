@@ -9,15 +9,20 @@ class OrdenServicio extends Model
     protected $table = 'ordenes_servicio';
 
     protected $fillable = [
-        'folio', 'cliente_id', 'tecnico_id', 'usuario_registro_id',
+        'folio', 'cliente_id', 'cotizacion_id', 'tecnico_id', 'usuario_registro_id',
         'fecha_recepcion', 'fecha_compromiso', 'fecha_entrega',
         'estado', 'prioridad', 'descripcion_falla', 'diagnostico',
-        'solucion', 'observaciones', 'costo_total',
+        'solucion', 'observaciones', 'costo_total'
     ];
 
     public function cliente()
     {
         return $this->belongsTo(Cliente::class, 'cliente_id');
+    }
+
+    public function cotizacion()
+    {
+        return $this->belongsTo(Cotizacion::class, 'cotizacion_id');
     }
 
     public function tecnico()

@@ -35,14 +35,14 @@
         </form>
 
         <p class="text-xs text-gray-500 mb-6">
-            Los totales de cada origen se muestran por separado: una cotización aceptada y la orden de servicio que
-            se genera después pueden corresponder al mismo trabajo, así que no se suman.
+            Una cotización aceptada deja de aparecer aquí cuando se genera su orden de servicio; a partir de ahí
+            la venta se refleja en las órdenes entregadas. Los totales no se suman porque incluyen IVA de forma distinta.
         </p>
 
         @if($origen !== 'ordenes')
             <div class="bg-white shadow rounded-lg overflow-hidden mb-8">
                 <div class="px-6 py-4 border-b flex justify-between items-center">
-                    <h3 class="font-medium text-gray-800">Cotizaciones aceptadas</h3>
+                    <h3 class="font-medium text-gray-800">Cotizaciones aceptadas sin orden</h3>
                     <span class="text-sm text-gray-700">Total: <strong>${{ number_format($totalCotizaciones, 2) }}</strong></span>
                 </div>
                 <table class="min-w-full divide-y divide-gray-200">

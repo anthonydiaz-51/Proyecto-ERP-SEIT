@@ -55,6 +55,7 @@ Route::middleware('auth')->prefix('comercial')->name('comercial.')->group(functi
     Route::resource('clientes', ClienteController::class);
     Route::resource('servicios', ServicioController::class);
     Route::resource('cotizaciones', CotizacionController::class);
+    Route::post('cotizaciones/{cotizacion}/generar-orden', [OrdenServicioController::class, 'desdeCotizacion'])->name('cotizaciones.generar-orden');
 
     Route::get('ventas', [VentaController::class, 'index'])
         ->middleware('role:1,2,3')

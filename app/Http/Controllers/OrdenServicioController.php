@@ -10,6 +10,7 @@ use App\Models\Usuario;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
+use App\Models\Cotizacion;
 
 class OrdenServicioController extends Controller
 {
@@ -136,13 +137,19 @@ class OrdenServicioController extends Controller
         $lineas = $validated['lineas'] ?? [];
         $costoTotal = $this->calcularCostoTotal($lineas);
 
-        DB::transaction(function () use ($orden, $validated, $lineas, $costoTotal) {
+        // Si la orden se marca como ENTREGADO y no se capturó fecha de entrega, se usa la fecha del día
+        $fechaEntrega = $validated['fecha_entrega'] ?? null;
+        if ($validated['estado'] === 'ENTREGADO' && empty($fechaEntrega)) {
+            $fechaEntrega = now()->toDateString();
+        }
+
+        DB::transaction(function () use ($orden, $validated, $lineas, $costoTotal, $fechaEntrega) {
             $orden->update([
                 'cliente_id' => $validated['cliente_id'],
                 'tecnico_id' => $validated['tecnico_id'] ?? null,
                 'fecha_recepcion' => $validated['fecha_recepcion'],
                 'fecha_compromiso' => $validated['fecha_compromiso'] ?? null,
-                'fecha_entrega' => $validated['fecha_entrega'] ?? null,
+                'fecha_entrega' => $fechaEntrega,
                 'estado' => $validated['estado'],
                 'prioridad' => $validated['prioridad'] ?? null,
                 'descripcion_falla' => $validated['descripcion_falla'] ?? null,
@@ -180,4 +187,56 @@ class OrdenServicioController extends Controller
             ->route('sistemas.ordenes.index')
             ->with('success', 'Orden de servicio cancelada correctamente.');
     }
+
+    public function desdeCotizacion(string $id)
+{
+    $cotizacion = Cotizacion::with('detalles')->findOrFail($id);
+
+    if ($cotizacion->estado !== 'ACEPTADA') {
+        return back()->with('error', 'Solo se puede generar una orden desde una cotización ACEPTADA.');
+    }
+
+    $existente = OrdenServicio::where('cotizacion_id', $cotizacion->id)
+        ->where('estado', '!=', 'CANCELADO')
+        ->first();
+
+    if ($existente) {
+        return redirect()
+            ->route('sistemas.ordenes.edit', $existente)
+            ->with('success', 'Esta cotización ya tiene la orden ' . $existente->folio . '.');
+    }
+
+    $orden = DB::transaction(function () use ($cotizacion) {
+        $lineas = $cotizacion->detalles->filter(fn ($d) => $d->servicio_id);
+
+        $orden = OrdenServicio::create([
+            'folio' => $this->generarFolio(),
+            'cliente_id' => $cotizacion->cliente_id,
+            'cotizacion_id' => $cotizacion->id,
+            'usuario_registro_id' => Auth::id(),
+            'fecha_recepcion' => now()->toDateString(),
+            'estado' => 'RECIBIDO',
+            'prioridad' => 'MEDIA',
+            'observaciones' => 'Generada desde la cotización ' . $cotizacion->folio,
+            'costo_total' => $lineas->sum('subtotal'),
+        ]);
+
+        foreach ($lineas as $linea) {
+            OrdenServicioDetalle::create([
+                'orden_id' => $orden->id,
+                'servicio_id' => $linea->servicio_id,
+                'cantidad' => $linea->cantidad,
+                'precio_unitario' => $linea->precio_unitario,
+                'descuento' => $linea->descuento,
+                'subtotal' => $linea->subtotal,
+            ]);
+        }
+
+        return $orden;
+    });
+
+    return redirect()
+        ->route('sistemas.ordenes.edit', $orden)
+        ->with('success', 'Orden ' . $orden->folio . ' generada desde la cotización ' . $cotizacion->folio . '.');
+}
 }

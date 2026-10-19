@@ -20,6 +20,7 @@ class VentaController extends Controller
         if (in_array($origen, ['todas', 'cotizaciones'])) {
             $cotizaciones = Cotizacion::with('cliente')
                 ->where('estado', 'ACEPTADA')
+                ->whereDoesntHave('ordenes', fn ($q) => $q->where('estado', '!=', 'CANCELADO'))
                 ->when($desde, fn ($q) => $q->whereDate('fecha', '>=', $desde))
                 ->when($hasta, fn ($q) => $q->whereDate('fecha', '<=', $hasta))
                 ->orderByDesc('fecha')

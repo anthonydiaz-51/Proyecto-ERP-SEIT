@@ -1,5 +1,10 @@
 <x-app-layout>
     <x-slot name="header">
+        @if(session('error'))
+            <div class="max-w-4xl mx-auto mt-4">
+                <div class="bg-red-50 text-red-700 px-4 py-3 rounded-md text-sm">{{ session('error') }}</div>
+            </div>
+        @endif
         <h2 class="font-semibold text-xl text-gray-800">Editar cotización — {{ $cotizacion->folio }}</h2>
     </x-slot>
 
@@ -216,6 +221,28 @@
                 @method('DELETE')
                 <button type="submit" class="text-red-600 text-sm hover:underline">Cancelar cotización</button>
             </form>
+            
+        @if($cotizacion->estado === 'ACEPTADA')
+            @php
+                $ordenActiva = $cotizacion->ordenes->where('estado', '!=', 'CANCELADO')->first();
+            @endphp
+
+            <div class="border-t mt-6 pt-4">
+                @if($ordenActiva)
+                    <p class="text-sm text-gray-600">
+                        Esta cotización ya generó la orden
+                        <a href="{{ route('sistemas.ordenes.edit', $ordenActiva) }}" class="text-indigo-600 hover:underline">{{ $ordenActiva->folio }}</a>.
+                    </p>
+                @else
+                    <form method="POST" action="{{ route('comercial.cotizaciones.generar-orden', $cotizacion) }}">
+                        @csrf
+                        <button type="submit" class="bg-teal-600 text-white px-4 py-2 rounded-md text-sm hover:bg-teal-700">
+                            Generar orden de servicio
+                        </button>
+                    </form>
+                @endif
+            </div>
+        @endif
         </div>
     </div>
 </x-app-layout>
