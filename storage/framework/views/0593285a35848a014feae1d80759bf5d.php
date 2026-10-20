@@ -18,7 +18,7 @@
             </div>
         <?php endif; ?>
         <div class="flex justify-between items-center">
-            <h2 class="font-semibold text-xl text-gray-800">Clientes</h2>
+            <h2 class="font-semibold text-xl text-white">Clientes</h2>
             <a href="<?php echo e(route('comercial.clientes.create')); ?>"
                class="bg-indigo-600 text-white px-4 py-2 rounded-md text-sm hover:bg-indigo-700">
                 + Nuevo cliente

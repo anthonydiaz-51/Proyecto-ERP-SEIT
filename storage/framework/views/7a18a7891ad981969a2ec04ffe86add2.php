@@ -9,7 +9,7 @@
 <?php endif; ?>
 <?php $component->withAttributes([]); ?>
      <?php $__env->slot('header', null, []); ?> 
-        <h2 class="font-semibold text-xl text-gray-800">Nueva orden de servicio</h2>
+        <h2 class="font-semibold text-xl text-white">Nueva orden de servicio</h2>
      <?php $__env->endSlot(); ?>
 
     <div

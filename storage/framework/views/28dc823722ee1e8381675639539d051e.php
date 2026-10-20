@@ -14,7 +14,7 @@
                 <div class="bg-red-50 text-red-700 px-4 py-3 rounded-md text-sm"><?php echo e(session('error')); ?></div>
             </div>
         <?php endif; ?>
-        <h2 class="font-semibold text-xl text-gray-800">Editar cotización — <?php echo e($cotizacion->folio); ?></h2>
+        <h2 class="font-semibold text-xl text-white">Editar cotización — <?php echo e($cotizacion->folio); ?></h2>
      <?php $__env->endSlot(); ?>
 
     <div

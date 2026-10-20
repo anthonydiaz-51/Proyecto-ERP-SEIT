@@ -9,7 +9,7 @@
 <?php endif; ?>
 <?php $component->withAttributes([]); ?>
      <?php $__env->slot('header', null, []); ?> 
-        <h2 class="font-semibold text-xl text-gray-800">Registrar pago</h2>
+        <h2 class="font-semibold text-xl text-white">Registrar pago</h2>
      <?php $__env->endSlot(); ?>
 
     <div class="max-w-2xl mx-auto py-6">

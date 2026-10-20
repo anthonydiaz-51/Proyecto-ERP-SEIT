@@ -9,7 +9,7 @@
 <?php endif; ?>
 <?php $component->withAttributes([]); ?>
      <?php $__env->slot('header', null, []); ?> 
-        <h2 class="font-semibold text-xl text-gray-800">Editar servicio</h2>
+        <h2 class="font-semibold text-xl text-white">Editar servicio</h2>
      <?php $__env->endSlot(); ?>
 
     <div class="max-w-3xl mx-auto py-6">

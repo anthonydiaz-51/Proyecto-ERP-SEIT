@@ -4,10 +4,28 @@
 
 <aside
     x-data="{ open: { admin: true, comercial: true, finanzas: true, sistemas: true, rh: false, practicas: false, cursos: false } }"
-    class="w-64 min-h-screen bg-white dark:bg-gray-800 border-r border-gray-200 dark:border-gray-700 flex flex-col"
+    x-show="sidebarOpen"
+    x-cloak
+    x-transition:enter="transform transition ease-in-out duration-200"
+    x-transition:enter-start="-translate-x-full"
+    x-transition:enter-end="translate-x-0"
+    x-transition:leave="transform transition ease-in-out duration-200"
+    x-transition:leave-start="translate-x-0"
+    x-transition:leave-end="-translate-x-full"
+    id="app-sidebar"
+    class="fixed inset-y-0 left-0 z-40 flex min-h-screen w-64 flex-col border-r border-gray-200 bg-white dark:border-gray-700 dark:bg-gray-800"
 >
-    <div class="p-4 border-b border-gray-200 dark:border-gray-700">
-        <span class="font-bold text-lg text-gray-800 dark:text-gray-100">ERP SEIT</span>
+    <div class="flex items-center justify-between border-b border-gray-200 p-4 dark:border-gray-700">
+        <span class="text-xs font-semibold uppercase tracking-wider text-gray-500 dark:text-gray-400">Búsqueda en el menú</span>
+        <button
+            type="button"
+            @click="sidebarOpen = false"
+            aria-label="Cerrar menú"
+            title="Cerrar menú"
+            class="inline-flex h-8 w-8 items-center justify-center rounded-md text-gray-500 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-indigo-500 dark:hover:bg-gray-700"
+        >
+            <span aria-hidden="true" class="text-xl leading-none">&times;</span>
+        </button>
     </div>
 
     <nav class="flex-1 overflow-y-auto py-2">
