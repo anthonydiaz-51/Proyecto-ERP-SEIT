@@ -73,7 +73,7 @@
                     'Otro'
                 ],
 
-                'Sistemas de Seguridad': [
+                'Sistemas de seguridad': [
                     'Instalación de cámaras CCTV',
                     'Configuración de DVR/NVR',
                     'Configuración de cámaras IP',
@@ -104,9 +104,45 @@
                     'Otro'
                 ],
 
-                'Venta equipo': ['Otro'],
-                'Educación': ['Otro'],
-                'Publicidad': ['Otro']
+                'Venta equipo': [
+                    'Venta de computadoras de escritorio y laptops',
+                    'Venta de impresoras y multifuncionales',
+                    'Venta de componentes y refacciones para PC',
+                    'Venta de periféricos y accesorios de cómputo',
+                    'Venta de consumibles de impresión',
+                    'Venta de equipos y accesorios de redes',
+                    'Venta de camaras y sistemas de videovigilancia',
+                    'Venta de almacenamiento y respaldos de información',
+                    'Venta de equipo tecnológico para empresas, escuelas y hogares',
+                    'Otro'
+                ],
+                'Educación': [
+                    'Cursos de mantenimiento preventivo y correctivo de computadoras',
+                    'Cursos de reparación y mantenimiento de teléfonos celulares',
+                    'Capacitación en instalación y configuración de software',
+                    'Cursos de redes informáticas y conectividad',
+                    'Capacitación en instalación de cámaras de seguridad',
+                    'Cursos de herramientas digitales y ofimática',
+                    'Asesoría tecnológica para estudiantes y emprendedores',
+                    'Talleres prácticos de electrónica y diagnóstico técnico',
+                    'Capacitación tecnológica para empresas y grupos de trabajo',
+                    'Otro'
+                ],
+                'Publicidad': [
+                    'Diseño de logotipos e identidad corporativa',
+                    'Diseño de publicidad digital e impresa',
+                    'Diseño y elaboración de flyers, carteles y folletos',
+                    'Diseño de tarjetas de presentación y papelería comercial',
+                    'Creación de contenido para redes sociales',
+                    'Administración y gestión de redes sociales',
+                    'Diseño y desarrollo de páginas web comerciales',
+                    'Creación de catálogos digitales de productos y servicios',
+                    'Publicidad y promoción de negocios en Internet',
+                    'Configuración y optimización de perfiles de Google Business Profile',
+                    'Gestión de campañas publicitarias en Google Ads',
+                    'Diseño de banners, lonas y material promocional',
+                    'Otro'
+                ]
             },
 
             get opcionesServicio() {

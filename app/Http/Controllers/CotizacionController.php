@@ -59,11 +59,30 @@ class CotizacionController extends Controller
         ];
     }
 
-    public function index()
+    public function index(Request $request)
     {
-        $cotizaciones = Cotizacion::with('cliente')->orderByDesc('id')->paginate(15);
+        $validated = $request->validate([
+            'folio' => 'nullable|string|max:50',
+        ]);
+        $folio = trim($validated['folio'] ?? '');
 
-        return view('comercial.cotizaciones.index', compact('cotizaciones'));
+        $consultaBase = Cotizacion::with('cliente')
+            ->when($folio !== '', fn ($query) => $query->where('folio', 'like', "%{$folio}%"))
+            ;
+
+        $cotizacionesActivas = (clone $consultaBase)
+            ->whereIn('estado', ['PENDIENTE', 'ACEPTADA'])
+            ->orderByDesc('id')
+            ->paginate(15, ['*'], 'activas_page')
+            ->withQueryString();
+
+        $cotizacionesCerradas = (clone $consultaBase)
+            ->whereIn('estado', ['RECHAZADA', 'VENCIDA', 'CANCELADA'])
+            ->orderByDesc('id')
+            ->paginate(15, ['*'], 'cerradas_page')
+            ->withQueryString();
+
+        return view('comercial.cotizaciones.index', compact('cotizacionesActivas', 'cotizacionesCerradas', 'folio'));
     }
 
     public function create()
