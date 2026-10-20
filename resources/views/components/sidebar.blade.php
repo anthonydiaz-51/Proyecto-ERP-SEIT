@@ -3,7 +3,7 @@
 @endphp
 
 <aside
-    x-data="{ open: { admin: true, comercial: true, finanzas: false, sistemas: false, rh: false, practicas: false, cursos: false } }"
+    x-data="{ open: { admin: true, comercial: true, finanzas: true, sistemas: true, rh: false, practicas: false, cursos: false } }"
     class="w-64 min-h-screen bg-white dark:bg-gray-800 border-r border-gray-200 dark:border-gray-700 flex flex-col"
 >
     <div class="p-4 border-b border-gray-200 dark:border-gray-700">

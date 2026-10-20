@@ -21,7 +21,7 @@
                 <a href="<?php echo e(route('comercial.cotizaciones.edit', $orden->cotizacion)); ?>" class="text-indigo-600 hover:underline"><?php echo e($orden->cotizacion->folio); ?></a>.
             </div>
         <?php endif; ?>
-        <h2 class="font-semibold text-xl text-gray-800">Editar orden — <?php echo e($orden->folio); ?></h2>
+        <h2 class="font-semibold text-xl text-white">Editar orden — <?php echo e($orden->folio); ?></h2>
      <?php $__env->endSlot(); ?>
 
     <div

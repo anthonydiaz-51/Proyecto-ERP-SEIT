@@ -12,7 +12,7 @@
                 <a href="{{ route('comercial.cotizaciones.edit', $orden->cotizacion) }}" class="text-indigo-600 hover:underline">{{ $orden->cotizacion->folio }}</a>.
             </div>
         @endif
-        <h2 class="font-semibold text-xl text-gray-800">Editar orden — {{ $orden->folio }}</h2>
+        <h2 class="font-semibold text-xl text-white">Editar orden — {{ $orden->folio }}</h2>
     </x-slot>
 
     <div

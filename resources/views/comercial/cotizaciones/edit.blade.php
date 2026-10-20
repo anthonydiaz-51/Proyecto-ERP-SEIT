@@ -5,7 +5,7 @@
                 <div class="bg-red-50 text-red-700 px-4 py-3 rounded-md text-sm">{{ session('error') }}</div>
             </div>
         @endif
-        <h2 class="font-semibold text-xl text-gray-800">Editar cotización — {{ $cotizacion->folio }}</h2>
+        <h2 class="font-semibold text-xl text-white">Editar cotización — {{ $cotizacion->folio }}</h2>
     </x-slot>
 
     <div

@@ -1,6 +1,6 @@
 <x-app-layout>
     <x-slot name="header">
-        <h2 class="font-semibold text-xl text-gray-800">Editar usuario</h2>
+        <h2 class="font-semibold text-xl text-white">Editar usuario</h2>
     </x-slot>
 
     <div class="max-w-2xl mx-auto py-6">

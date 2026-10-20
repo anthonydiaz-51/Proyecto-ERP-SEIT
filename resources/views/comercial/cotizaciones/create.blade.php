@@ -9,7 +9,7 @@
 
 <x-app-layout>
     <x-slot name="header">
-        <h2 class="font-semibold text-xl text-gray-800">Nueva cotización</h2>
+        <h2 class="font-semibold text-xl text-white">Nueva cotización</h2>
     </x-slot>
 
     <div
