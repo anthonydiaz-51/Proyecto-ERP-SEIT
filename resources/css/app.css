@@ -2,6 +2,349 @@
 @tailwind components;
 @tailwind utilities;
 
+@layer base {
+    :root {
+        color-scheme: dark;
+        --seit-black: #0d0d0d;
+        --seit-panel: #111820;
+        --seit-panel-raised: #17212b;
+        --seit-red: #ff2b2b;
+        --seit-blue: #00a8ff;
+        --seit-white: #ffffff;
+        --seit-muted: #a7b4c1;
+        --seit-border: rgb(0 168 255 / 18%);
+    }
+
+    html {
+        background: var(--seit-black);
+    }
+
+    body {
+        min-height: 100vh;
+        background: var(--seit-black);
+        color: var(--seit-white);
+    }
+
+    ::selection {
+        color: var(--seit-black);
+        background: var(--seit-blue);
+    }
+
+    :focus-visible {
+        outline: 2px solid var(--seit-blue);
+        outline-offset: 2px;
+    }
+}
+
 [x-cloak] {
-	display: none !important;
+    display: none !important;
+}
+
+/* SEIT theme bridge for the existing Tailwind utility classes across the app. */
+.bg-white {
+    background-color: var(--seit-panel) !important;
+}
+
+.bg-gray-50 {
+    background-color: #0e141a !important;
+}
+
+.bg-gray-100 {
+    background-color: var(--seit-black) !important;
+}
+
+.bg-gray-800,
+.bg-gray-900 {
+    background-color: var(--seit-panel) !important;
+}
+
+.text-gray-900,
+.text-gray-800,
+.text-gray-700,
+.text-gray-600 {
+    color: #edf4fa !important;
+}
+
+.text-gray-500,
+.text-gray-400,
+.text-gray-300 {
+    color: var(--seit-muted) !important;
+}
+
+.border-gray-100,
+.border-gray-200,
+.border-gray-300,
+.border-gray-400,
+.border-gray-500,
+.border-gray-600,
+.border-gray-700 {
+    border-color: var(--seit-border) !important;
+}
+
+.border-indigo-200,
+.border-indigo-300,
+.border-indigo-400,
+.border-indigo-500 {
+    border-color: rgb(0 168 255 / 38%) !important;
+}
+
+.border-red-200,
+.border-red-300,
+.border-red-400,
+.border-red-500 {
+    border-color: rgb(255 43 43 / 45%) !important;
+}
+
+.divide-gray-100 > :not([hidden]) ~ :not([hidden]),
+.divide-gray-200 > :not([hidden]) ~ :not([hidden]),
+.divide-gray-300 > :not([hidden]) ~ :not([hidden]),
+.divide-white\/10 > :not([hidden]) ~ :not([hidden]) {
+    border-color: var(--seit-border) !important;
+}
+
+.bg-indigo-600,
+.bg-indigo-700 {
+    background-color: var(--seit-blue) !important;
+    color: var(--seit-black) !important;
+}
+
+.bg-red-600,
+.bg-red-700,
+.bg-red-500 {
+    background-color: var(--seit-red) !important;
+    color: var(--seit-black) !important;
+}
+
+.bg-indigo-50,
+.bg-blue-50 {
+    background-color: rgb(0 168 255 / 12%) !important;
+}
+
+.bg-red-50,
+.bg-rose-50 {
+    background-color: rgb(255 43 43 / 12%) !important;
+}
+
+.bg-green-50,
+.bg-emerald-50,
+.bg-teal-50 {
+    background-color: rgb(0 168 255 / 10%) !important;
+}
+
+.text-indigo-900,
+.text-indigo-800,
+.text-indigo-700,
+.text-indigo-600,
+.text-indigo-500,
+.text-blue-900,
+.text-blue-800,
+.text-blue-700,
+.text-blue-600,
+.text-teal-700,
+.text-teal-600,
+.text-purple-700,
+.text-purple-600 {
+    color: var(--seit-blue) !important;
+}
+
+.text-red-900,
+.text-red-800,
+.text-red-700,
+.text-red-600,
+.text-red-400,
+.text-red-500,
+.text-rose-700,
+.text-rose-600 {
+    color: var(--seit-red) !important;
+}
+
+.text-green-800,
+.text-green-700,
+.text-green-600,
+.text-emerald-700,
+.text-emerald-600,
+.text-teal-800,
+.text-amber-800,
+.text-amber-700,
+.text-amber-600,
+.text-orange-700,
+.text-orange-600,
+.text-yellow-700,
+.text-yellow-600 {
+    color: var(--seit-blue) !important;
+}
+
+.bg-indigo-600.text-white,
+.bg-indigo-700.text-white,
+.bg-red-500.text-white,
+.bg-red-600.text-white,
+.bg-red-700.text-white {
+    color: var(--seit-black) !important;
+}
+
+.bg-white.shadow,
+.bg-white.shadow-sm,
+.bg-white.shadow-md,
+.bg-white.shadow-lg {
+    border: 1px solid var(--seit-border);
+    box-shadow: 0 18px 44px rgb(0 0 0 / 24%);
+}
+
+[class~="hover:bg-indigo-700"]:hover,
+[class~="hover:bg-indigo-600"]:hover {
+    background-color: #0088d1 !important;
+}
+
+[class~="hover:bg-red-700"]:hover,
+[class~="hover:bg-red-600"]:hover {
+    background-color: #e51f25 !important;
+}
+
+[class~="hover:text-indigo-700"]:hover,
+[class~="hover:text-indigo-600"]:hover {
+    color: var(--seit-blue) !important;
+}
+
+[class~="hover:text-red-700"]:hover,
+[class~="hover:text-red-600"]:hover {
+    color: var(--seit-red) !important;
+}
+
+input:not([type="checkbox"]):not([type="radio"]),
+select,
+textarea {
+    border-color: rgb(112 145 169 / 35%);
+    background-color: #0b1015;
+    color: var(--seit-white);
+}
+
+option {
+    background-color: #0d0d0d;
+    color: #ffffff;
+}
+
+input::placeholder,
+textarea::placeholder {
+    color: #81909e;
+}
+
+input:focus,
+select:focus,
+textarea:focus {
+    border-color: var(--seit-blue) !important;
+    --tw-ring-color: rgb(0 168 255 / 35%) !important;
+}
+
+input[type="checkbox"],
+input[type="radio"] {
+    accent-color: var(--seit-blue);
+}
+
+table {
+    color: #edf4fa;
+}
+
+tbody tr {
+    transition: background-color 160ms ease;
+}
+
+tbody tr:hover {
+    background-color: rgb(0 168 255 / 5%);
+}
+
+.seit-app-shell {
+    background: var(--seit-black);
+}
+
+.seit-topbar {
+    min-height: 5.25rem;
+    border-bottom: 1px solid var(--seit-border);
+    background: rgb(13 13 13 / 94%);
+    box-shadow: 0 8px 30px rgb(0 0 0 / 18%);
+    backdrop-filter: blur(14px);
+}
+
+.seit-page-header {
+    position: relative;
+    border-bottom: 1px solid var(--seit-border);
+    background: linear-gradient(110deg, #111820, #0d0d0d 70%);
+}
+
+.seit-page-header::before {
+    position: absolute;
+    inset: 0 auto 0 0;
+    width: 3px;
+    background: linear-gradient(var(--seit-red), var(--seit-blue));
+    content: "";
+}
+
+.seit-main {
+    min-width: 0;
+    background:
+        radial-gradient(ellipse at 82% 0%, rgb(0 168 255 / 6%), transparent 34rem),
+        var(--seit-black);
+}
+
+.seit-sidebar {
+    border-right: 1px solid var(--seit-border);
+    background: linear-gradient(180deg, #101820, #0d0d0d 72%);
+    box-shadow: 12px 0 35px rgb(0 0 0 / 22%);
+}
+
+.seit-brand-mark {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.1em;
+    color: var(--seit-white);
+    font-style: italic;
+    font-weight: 900;
+    letter-spacing: -0.06em;
+}
+
+.seit-brand-mark .brand-red {
+    color: var(--seit-red);
+}
+
+.seit-brand-mark .brand-blue {
+    color: var(--seit-blue);
+}
+
+.seit-nav-link {
+    position: relative;
+    transition: color 150ms ease, background-color 150ms ease, box-shadow 150ms ease, transform 150ms ease;
+}
+
+.seit-sidebar nav button:hover,
+.seit-sidebar nav a:hover {
+    background-color: var(--seit-blue) !important;
+    color: var(--seit-black) !important;
+    box-shadow: 0 4px 14px rgb(0 168 255 / 28%);
+    transform: translateX(3px);
+}
+
+.seit-sidebar nav button:hover *,
+.seit-sidebar nav a:hover * {
+    color: var(--seit-black) !important;
+}
+
+.seit-nav-link[aria-current="page"]::before {
+    position: absolute;
+    inset: 0 auto 0 0;
+    width: 3px;
+    border-radius: 0 4px 4px 0;
+    background: var(--seit-red);
+    content: "";
+}
+
+.seit-panel {
+    border: 1px solid var(--seit-border);
+    border-radius: 1rem;
+    background: linear-gradient(145deg, #151e27, #10151b 72%);
+    box-shadow: 0 18px 50px rgb(0 0 0 / 24%);
+}
+
+@media (max-width: 1023px) {
+    .seit-main {
+        padding: 1.25rem !important;
+    }
 }

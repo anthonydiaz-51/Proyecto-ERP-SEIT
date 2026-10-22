@@ -13,13 +13,13 @@
         <?php echo app('Illuminate\Foundation\Vite')(['resources/css/app.css', 'resources/js/app.js']); ?>
     </head>
     <body class="font-sans antialiased">
-        <div x-data="{ sidebarOpen: false }" @keydown.escape.window="sidebarOpen = false" class="flex min-h-screen bg-gray-100 dark:bg-gray-900">
+        <div x-data="{ sidebarOpen: false }" @keydown.escape.window="sidebarOpen = false" class="seit-app-shell flex min-h-screen">
             <div
                 x-show="sidebarOpen"
                 x-cloak
                 x-transition.opacity
                 @click="sidebarOpen = false"
-                class="fixed inset-0 z-30 bg-black/30"
+                class="fixed inset-0 z-30 bg-black/70 backdrop-blur-sm lg:hidden"
                 aria-hidden="true"
             ></div>
             <?php if (isset($component)) { $__componentOriginal2880b66d47486b4bfeaf519598a469d6 = $component; } ?>
@@ -44,11 +44,10 @@
 <?php endif; ?>
 
             <div class="flex-1 flex flex-col">
-                
-                <header class="bg-white dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700 px-6 py-3 flex items-center justify-between">
-                    <div class="flex items-center gap-4">
-                        <a href="<?php echo e(route('dashboard')); ?>" class="inline-flex items-center rounded focus:outline-none focus:ring-2 focus:ring-red-600" aria-label="Ir a la página principal de SEIT">
-                            <img src="<?php echo e(asset('images/logo-seit-SinFondo-Oscuro.png')); ?>" alt="SEIT GDL, Soluciones en Tecnología" class="h-16 w-auto object-contain">
+                <header class="seit-topbar sticky top-0 z-20 flex items-center justify-between px-5 py-3 sm:px-8">
+                    <div class="flex items-center gap-3 sm:gap-4">
+                        <a href="<?php echo e(route('dashboard')); ?>" class="inline-flex items-center rounded-md focus:outline-none focus:ring-2 focus:ring-[#00A8FF]" aria-label="Ir al inicio de SEIT">
+                            <img src="<?php echo e(asset('images/logo-seit-SinFondo-Oscuro.png')); ?>" alt="SEIT GDL, Soluciones en Tecnología" class="h-[62px] w-auto object-contain sm:h-[64px]">
                         </a>
                         <button
                             type="button"
@@ -57,7 +56,7 @@
                             :aria-expanded="sidebarOpen"
                             aria-controls="app-sidebar"
                             title="Menú"
-                            class="inline-flex h-9 w-9 items-center justify-center rounded-md text-gray-600 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-indigo-500 dark:text-gray-300 dark:hover:bg-gray-700"
+                            class="inline-flex h-10 w-10 items-center justify-center rounded-lg border border-white/10 text-gray-300 transition hover:border-[#00A8FF]/50 hover:bg-[#00A8FF]/10 hover:text-white focus:outline-none focus:ring-2 focus:ring-[#00A8FF]"
                         >
                             <span class="sr-only">Menú</span>
                             <span class="flex w-5 flex-col gap-1" aria-hidden="true">
@@ -67,24 +66,31 @@
                             </span>
                         </button>
                     </div>
-                    <span class="text-sm text-gray-600 dark:text-gray-300">
-                        <?php echo e(auth()->user()->nombre); ?> <?php echo e(auth()->user()->apellido); ?>
+                    <div class="flex items-center gap-3 rounded-full border border-white/10 bg-white/[0.04] py-1.5 pl-2 pr-4">
+                        <span class="flex h-9 w-9 items-center justify-center rounded-full bg-[#00A8FF]/15 text-sm font-bold text-[#00A8FF]">
+                            <?php echo e(mb_strtoupper(mb_substr(auth()->user()->nombre ?? 'S', 0, 1) . mb_substr(auth()->user()->apellido ?? '', 0, 1))); ?>
 
-                    </span>
+                        </span>
+                        <span class="text-sm font-medium text-white">
+                            <?php echo e(auth()->user()->nombre); ?> <?php echo e(auth()->user()->apellido); ?>
+
+                        </span>
+                    </div>
                 </header>
 
                 <?php if(isset($header)): ?>
-                    <div class="bg-white dark:bg-gray-800 shadow-sm px-6 py-4">
+                    <div class="seit-page-header px-6 py-5 sm:px-8">
                         <?php echo e($header); ?>
 
                     </div>
                 <?php endif; ?>
 
-                <main class="flex-1 p-6">
+                <main class="seit-main flex-1 p-6 sm:p-8">
                     <?php echo e($slot); ?>
 
                 </main>
             </div>
         </div>
     </body>
-</html><?php /**PATH /Users/anthonydiaz/Documents/Projecto_ERP_Seit/erp-seit-backend/resources/views/layouts/app.blade.php ENDPATH**/ ?>
+</html>
+<?php /**PATH /Users/anthonydiaz/Documents/Projecto_ERP_Seit/erp-seit-backend/resources/views/layouts/app.blade.php ENDPATH**/ ?>
