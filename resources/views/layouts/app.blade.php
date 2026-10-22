@@ -28,7 +28,9 @@
                 {{-- Top bar delgado: solo usuario --}}
                 <header class="bg-white dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700 px-6 py-3 flex items-center justify-between">
                     <div class="flex items-center gap-4">
-                        <a href="{{ route('dashboard') }}" class="text-lg font-bold text-gray-900 hover:text-red-700 focus:outline-none focus:ring-2 focus:ring-red-600 dark:text-gray-100 dark:hover:text-red-400" aria-label="Ir a la página principal de SEIT">SEIT</a>
+                        <a href="{{ route('dashboard') }}" class="inline-flex items-center rounded focus:outline-none focus:ring-2 focus:ring-red-600" aria-label="Ir a la página principal de SEIT">
+                            <img src="{{ asset('images/logo-seit-SinFondo-Oscuro.png') }}" alt="SEIT GDL, Soluciones en Tecnología" class="h-16 w-auto object-contain">
+                        </a>
                         <button
                             type="button"
                             @click="sidebarOpen = !sidebarOpen"

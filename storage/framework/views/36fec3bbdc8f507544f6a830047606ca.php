@@ -28,9 +28,10 @@
     <?php endif; ?>
 
     <div class="max-w-7xl mx-auto py-6">
-        <form method="GET" action="<?php echo e(route('comercial.cotizaciones.index')); ?>" class="mb-4 flex flex-wrap items-end gap-3">
-            <div class="w-full max-w-sm">
-                <label for="folio" class="mb-1 block text-sm font-medium text-gray-700">Buscar por folio</label>
+        <div class="mb-6 overflow-x-auto">
+            <form method="GET" action="<?php echo e(route('comercial.cotizaciones.index')); ?>" class="flex min-w-[900px] items-end gap-3">
+            <div class="min-w-0 flex-1">
+                <label for="folio" class="mb-1 block text-sm font-medium text-white">Buscar por folio</label>
                 <input
                     id="folio"
                     type="search"
@@ -41,13 +42,44 @@
                     class="block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
                 >
             </div>
-            <button type="submit" class="rounded-md bg-indigo-600 px-4 py-2 text-sm font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500">
-                Buscar
-            </button>
-            <?php if($folio !== ''): ?>
-                <a href="<?php echo e(route('comercial.cotizaciones.index')); ?>" class="px-2 py-2 text-sm text-gray-600 hover:text-gray-900">Limpiar</a>
-            <?php endif; ?>
-        </form>
+            <div class="min-w-0 flex-1">
+                <label for="telefono" class="mb-1 block text-sm font-medium text-white">Buscar por teléfono</label>
+                <input
+                    id="telefono"
+                    type="search"
+                    name="telefono"
+                    value="<?php echo e($telefono); ?>"
+                    maxlength="30"
+                    placeholder="Teléfono del cliente"
+                    class="block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
+                >
+            </div>
+            <div class="min-w-0 flex-1">
+                <label for="cliente" class="mb-1 block text-sm font-medium text-white">Buscar por cliente</label>
+                <input
+                    id="cliente"
+                    type="search"
+                    name="cliente"
+                    value="<?php echo e($nombreCliente); ?>"
+                    maxlength="150"
+                    placeholder="Nombre o razón social"
+                    class="block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
+                >
+            </div>
+            <div class="flex shrink-0 justify-end gap-3">
+                <?php if($folio !== '' || $telefono !== '' || $nombreCliente !== ''): ?>
+                    <a href="<?php echo e(route('comercial.cotizaciones.index')); ?>" class="rounded-md px-4 py-2 text-sm text-gray-600 hover:bg-gray-100 hover:text-gray-900">Limpiar</a>
+                <?php endif; ?>
+                <button type="submit" class="rounded-md bg-indigo-600 px-4 py-2 text-sm font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500">
+                    Buscar
+                </button>
+            </div>
+            </form>
+        </div>
+
+        <?php if($folio !== '' || $telefono !== '' || $nombreCliente !== ''): ?>
+            <div class="mb-4 text-sm font-semibold text-white">Resultados de búsqueda</div>
+        <?php endif; ?>
 
         <?php
             $grupos = [
@@ -73,7 +105,7 @@
 
         <?php $__currentLoopData = $grupos; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $grupo): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
             <section class="mb-8" aria-label="<?php echo e($grupo['titulo']); ?>">
-                <h3 class="mb-3 text-lg font-semibold text-gray-800"><?php echo e($grupo['titulo']); ?></h3>
+                <h3 class="mb-3 text-lg font-semibold text-white"><?php echo e($grupo['titulo']); ?></h3>
                 <div class="overflow-hidden rounded-lg bg-white shadow">
                     <table class="min-w-full divide-y divide-gray-200">
                         <thead class="bg-gray-50">

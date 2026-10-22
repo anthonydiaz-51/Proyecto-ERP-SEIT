@@ -63,12 +63,19 @@ class CotizacionController extends Controller
     {
         $validated = $request->validate([
             'folio' => 'nullable|string|max:50',
+            'telefono' => 'nullable|string|max:30',
+            'cliente' => 'nullable|string|max:150',
         ]);
         $folio = trim($validated['folio'] ?? '');
+        $telefono = trim($validated['telefono'] ?? '');
+        $nombreCliente = trim($validated['cliente'] ?? '');
 
         $consultaBase = Cotizacion::with('cliente')
             ->when($folio !== '', fn ($query) => $query->where('folio', 'like', "%{$folio}%"))
-            ;
+            ->when($telefono !== '', fn ($query) => $query->whereHas('cliente', fn ($clienteQuery) => $clienteQuery->where('telefono', 'like', "%{$telefono}%")))
+            ->when($nombreCliente !== '', fn ($query) => $query->whereHas('cliente', fn ($clienteQuery) => $clienteQuery
+                ->where('nombre', 'like', "%{$nombreCliente}%")
+                ->orWhere('razon_social', 'like', "%{$nombreCliente}%")));
 
         $cotizacionesActivas = (clone $consultaBase)
             ->whereIn('estado', ['PENDIENTE', 'ACEPTADA'])
@@ -82,7 +89,7 @@ class CotizacionController extends Controller
             ->paginate(15, ['*'], 'cerradas_page')
             ->withQueryString();
 
-        return view('comercial.cotizaciones.index', compact('cotizacionesActivas', 'cotizacionesCerradas', 'folio'));
+        return view('comercial.cotizaciones.index', compact('cotizacionesActivas', 'cotizacionesCerradas', 'folio', 'telefono', 'nombreCliente'));
     }
 
     public function create()
