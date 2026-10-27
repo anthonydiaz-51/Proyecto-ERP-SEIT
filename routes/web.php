@@ -8,6 +8,8 @@ use App\Http\Controllers\OrdenServicioController;
 use App\Http\Controllers\UsuarioController;
 use App\Http\Controllers\VentaController;
 use App\Http\Controllers\PagoController;
+use App\Http\Controllers\ProductoController;
+use App\Http\Controllers\MovimientoInventarioController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -65,6 +67,14 @@ Route::middleware('auth')->prefix('comercial')->name('comercial.')->group(functi
 //Controlaor/ruta de Pagos
 Route::middleware(['auth', 'role:1,2,3'])->prefix('finanzas')->name('finanzas.')->group(function () {
     Route::resource('pagos', PagoController::class)->except(['show', 'destroy']);
+});
+
+Route::middleware('auth')->prefix('inventario')->name('inventario.')->group(function () {
+    Route::get('/', [ProductoController::class, 'index'])->name('index');
+    Route::resource('productos', ProductoController::class)->except(['index', 'show']);
+    Route::get('movimientos', [MovimientoInventarioController::class, 'index'])->name('movimientos.index');
+    Route::get('movimientos/create', [MovimientoInventarioController::class, 'create'])->name('movimientos.create');
+    Route::post('movimientos', [MovimientoInventarioController::class, 'store'])->name('movimientos.store');
 });
 
 require __DIR__.'/auth.php';
