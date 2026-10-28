@@ -10,6 +10,8 @@ use App\Http\Controllers\VentaController;
 use App\Http\Controllers\PagoController;
 use App\Http\Controllers\ProductoController;
 use App\Http\Controllers\MovimientoInventarioController;
+use App\Http\Controllers\ProveedorController;
+use App\Http\Controllers\CompraController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -75,6 +77,17 @@ Route::middleware('auth')->prefix('inventario')->name('inventario.')->group(func
     Route::get('movimientos', [MovimientoInventarioController::class, 'index'])->name('movimientos.index');
     Route::get('movimientos/create', [MovimientoInventarioController::class, 'create'])->name('movimientos.create');
     Route::post('movimientos', [MovimientoInventarioController::class, 'store'])->name('movimientos.store');
+});
+
+Route::middleware('auth')->prefix('compras')->name('compras.')->group(function () {
+    Route::get('/', [CompraController::class, 'index'])->name('index');
+    Route::get('create', [CompraController::class, 'create'])->name('create');
+    Route::post('/', [CompraController::class, 'store'])->name('store');
+    Route::get('{compra}', [CompraController::class, 'show'])->whereNumber('compra')->name('show');
+
+    Route::resource('proveedores', ProveedorController::class)
+        ->except(['show'])
+        ->parameters(['proveedores' => 'proveedor']);
 });
 
 require __DIR__.'/auth.php';

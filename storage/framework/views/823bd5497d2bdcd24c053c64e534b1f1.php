@@ -107,6 +107,24 @@
         </section>
 
         <section class="px-1 py-1">
+            <p class="px-3 py-2 text-[11px] font-bold uppercase tracking-[0.16em] text-gray-400">Compras</p>
+            <div class="mt-1 space-y-1">
+                <a href="<?php echo e(route('compras.index')); ?>"
+                   aria-current="<?php echo e(request()->routeIs('compras.index', 'compras.show', 'compras.create', 'compras.store') ? 'page' : 'false'); ?>"
+                   class="seit-nav-link flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm hover:bg-[#00A8FF] hover:text-[#0D0D0D] <?php echo e(request()->routeIs('compras.index', 'compras.show', 'compras.create', 'compras.store') ? 'bg-[#00A8FF]/10 font-semibold text-[#00A8FF]' : 'text-gray-300'); ?>">
+                    <span class="h-1.5 w-1.5 rounded-full bg-[#00A8FF]" aria-hidden="true"></span>
+                    Compras y recepciones
+                </a>
+                <a href="<?php echo e(route('compras.proveedores.index')); ?>"
+                   aria-current="<?php echo e(request()->routeIs('compras.proveedores.*') ? 'page' : 'false'); ?>"
+                   class="seit-nav-link flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm hover:bg-[#00A8FF] hover:text-[#0D0D0D] <?php echo e(request()->routeIs('compras.proveedores.*') ? 'bg-[#00A8FF]/10 font-semibold text-[#00A8FF]' : 'text-gray-300'); ?>">
+                    <span class="h-1.5 w-1.5 rounded-full bg-[#00A8FF]" aria-hidden="true"></span>
+                    Proveedores
+                </a>
+            </div>
+        </section>
+
+        <section class="px-1 py-1">
             <button
                 type="button"
                 @click="open.finanzas = !open.finanzas"

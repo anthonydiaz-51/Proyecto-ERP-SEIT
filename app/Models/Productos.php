@@ -42,4 +42,9 @@ class Productos extends Model
     {
         return $this->hasMany(MovimientoInventario::class, 'producto_id');
     }
+
+    public function compraDetalles()
+    {
+        return $this->hasMany(CompraDetalle::class, 'producto_id');
+    }
 }
