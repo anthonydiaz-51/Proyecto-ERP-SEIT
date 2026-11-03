@@ -343,6 +343,41 @@ tbody tr:hover {
     box-shadow: 0 18px 50px rgb(0 0 0 / 24%);
 }
 
+.seit-footer {
+    border-top-color: var(--seit-border);
+    background: linear-gradient(100deg, #0d0d0d, #111820 55%, #0d0d0d);
+}
+
+.seit-footer-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    border: 1px solid rgb(255 255 255 / 9%);
+    border-radius: 9999px;
+    padding: 0.5rem 0.75rem;
+    color: #dce6ee;
+    font-size: 0.8rem;
+    font-weight: 500;
+    text-decoration: none;
+    transition: color 150ms ease, border-color 150ms ease, background-color 150ms ease, transform 150ms ease;
+}
+
+.seit-footer-link svg {
+    color: var(--seit-blue);
+}
+
+.seit-footer-link:hover {
+    transform: translateY(-1px);
+    border-color: rgb(0 168 255 / 50%);
+    background-color: rgb(0 168 255 / 10%);
+    color: var(--seit-white);
+}
+
+.seit-footer-link:focus-visible {
+    outline: 2px solid var(--seit-blue);
+    outline-offset: 3px;
+}
+
 @media (max-width: 1023px) {
     .seit-main {
         padding: 1.25rem !important;

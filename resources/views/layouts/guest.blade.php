@@ -35,6 +35,10 @@
             <div class="relative z-10 w-full overflow-hidden rounded-2xl border border-[#00A8FF]/20 bg-white px-6 py-7 shadow-2xl sm:max-w-md sm:px-8">
                 {{ $slot }}
             </div>
+
+            <div class="relative z-10 mt-auto w-full pt-10">
+                <x-footer />
+            </div>
         </div>
     </body>
 </html>

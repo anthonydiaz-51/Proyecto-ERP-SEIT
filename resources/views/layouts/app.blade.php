@@ -66,6 +66,8 @@
                 <main class="seit-main flex-1 p-6 sm:p-8">
                     {{ $slot }}
                 </main>
+
+                <x-footer />
             </div>
         </div>
     </body>
