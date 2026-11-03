@@ -1,3 +1,17 @@
+# ERP SEIT
+
+Aplicación web interna de SEIT para operación comercial, órdenes de servicio, inventario, proveedores, compras y pagos. Está construida sobre Laravel y MySQL.
+
+## Base de datos y primera instalación
+
+El procedimiento para instalar en una base vacía, adoptar el esquema MySQL existente, ejecutar migraciones de forma segura y validar los flujos principales está documentado en [Base de datos y validación operativa](docs/BASE_DATOS_Y_VALIDACION.md).
+
+La configuración de la aplicación se define en `.env`. No guardar credenciales ni datos reales en el repositorio. Antes de ejecutar migraciones en una base existente, generar un respaldo y seguir la inspección de esquema descrita en la guía; `--pretend` no evalúa las comprobaciones condicionales de la migración base.
+
+---
+
+## Laravel
+
 <p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
 
 <p align="center">
