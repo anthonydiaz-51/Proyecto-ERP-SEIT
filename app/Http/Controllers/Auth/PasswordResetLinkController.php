@@ -6,7 +6,6 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Password;
-use Illuminate\Validation\ValidationException;
 use Illuminate\View\View;
 
 class PasswordResetLinkController extends Controller
@@ -19,11 +18,7 @@ class PasswordResetLinkController extends Controller
         return view('auth.forgot-password');
     }
 
-    /**
-     * Handle an incoming password reset link request.
-     *
-     * @throws ValidationException
-     */
+    /** Handle an incoming password reset link request. */
     public function store(Request $request): RedirectResponse
     {
         $request->validate([
@@ -37,9 +32,12 @@ class PasswordResetLinkController extends Controller
             $request->only('email')
         );
 
-        return $status == Password::RESET_LINK_SENT
-                    ? back()->with('status', __($status))
-                    : back()->withInput($request->only('email'))
-                        ->withErrors(['email' => __($status)]);
+        if ($status === Password::RESET_THROTTLED) {
+            return back()->withInput($request->only('email'))
+                ->withErrors(['email' => 'Espera un momento antes de solicitar otro enlace.']);
+        }
+
+        // Keep the response generic so the form does not disclose whether an email is registered.
+        return back()->with('status', 'Si el correo corresponde a una cuenta, recibirás un enlace para restablecer la contraseña.');
     }
 }

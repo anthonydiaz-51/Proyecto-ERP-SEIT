@@ -1,4 +1,9 @@
 <x-app-layout>
+    @php
+        $esAdministrador = (int) auth()->user()->rol_id === 1;
+        $esPropio = (int) auth()->id() === (int) $usuario->id;
+    @endphp
+
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-white">Editar usuario</h2>
     </x-slot>
@@ -43,28 +48,48 @@
                     @error('rol_id') <p class="text-red-500 text-sm mt-1">{{ $message }}</p> @enderror
                 </div>
 
-                <div class="grid grid-cols-2 gap-4 mb-4">
-                    <div>
-                        <label class="block text-sm font-medium text-gray-700">Nueva contraseña (opcional)</label>
-                        <input type="password" name="password"
-                               class="mt-1 block w-full rounded-md border-gray-300"
-                               placeholder="Dejar en blanco para no cambiarla">
-                        @error('password') <p class="text-red-500 text-sm mt-1">{{ $message }}</p> @enderror
+                @if($esAdministrador || $esPropio)
+                    <div class="grid grid-cols-2 gap-4 mb-4">
+                        @if($esPropio && !$esAdministrador)
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700">Contraseña actual</label>
+                                <input type="password" name="current_password" autocomplete="current-password"
+                                       class="mt-1 block w-full rounded-md border-gray-300">
+                                @error('current_password') <p class="text-red-500 text-sm mt-1">{{ $message }}</p> @enderror
+                            </div>
+                        @endif
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700">Nueva contraseña (opcional)</label>
+                            <input type="password" name="password" autocomplete="new-password"
+                                   class="mt-1 block w-full rounded-md border-gray-300"
+                                   placeholder="Dejar en blanco para no cambiarla">
+                            @error('password') <p class="text-red-500 text-sm mt-1">{{ $message }}</p> @enderror
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700">Confirmar nueva contraseña</label>
+                            <input type="password" name="password_confirmation" autocomplete="new-password"
+                                   class="mt-1 block w-full rounded-md border-gray-300">
+                        </div>
                     </div>
-                    <div>
-                        <label class="block text-sm font-medium text-gray-700">Confirmar nueva contraseña</label>
-                        <input type="password" name="password_confirmation"
-                               class="mt-1 block w-full rounded-md border-gray-300">
-                    </div>
-                </div>
+                @else
+                    <p class="mb-4 text-sm text-gray-500">
+                        Solo el administrador puede cambiar la contraseña de otra cuenta.
+                    </p>
+                @endif
 
-                <div class="mb-6">
-                    <label class="inline-flex items-center">
-                        <input type="hidden" name="activo" value="0">
-                        <input type="checkbox" name="activo" value="1" {{ old('activo', $usuario->activo) ? 'checked' : '' }}>
-                        <span class="ml-2 text-sm text-gray-700">Usuario activo</span>
-                    </label>
-                </div>
+                @if((int) auth()->user()->rol_id === 1)
+                    <div class="mb-6">
+                        <label class="inline-flex items-center">
+                            <input type="hidden" name="activo" value="0">
+                            <input type="checkbox" name="activo" value="1" {{ old('activo', $usuario->activo) ? 'checked' : '' }}>
+                            <span class="ml-2 text-sm text-gray-700">Usuario activo</span>
+                        </label>
+                    </div>
+                @else
+                    <div class="mb-6 text-sm text-gray-500">
+                        Estado: <span class="font-medium">{{ $usuario->activo ? 'Activo' : 'Desactivado' }}</span>
+                    </div>
+                @endif
 
                 <div class="flex justify-end gap-3">
                     <a href="{{ route('administracion.usuarios.index') }}" class="px-4 py-2 text-sm text-gray-600">Cancelar</a>
@@ -74,7 +99,7 @@
                 </div>
             </form>
 
-            @if($usuario->id !== auth()->id())
+            @if((int) auth()->user()->rol_id === 1 && (int) $usuario->id !== (int) auth()->id())
                 <form method="POST" action="{{ route('administracion.usuarios.destroy', $usuario) }}"
                       onsubmit="return confirm('¿Desactivar este usuario?');" class="mt-4">
                     @csrf

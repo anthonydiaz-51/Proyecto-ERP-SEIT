@@ -8,6 +8,11 @@
 <?php $attributes = $attributes->except(\App\View\Components\AppLayout::ignoredParameterNames()); ?>
 <?php endif; ?>
 <?php $component->withAttributes([]); ?>
+    <?php
+        $esAdministrador = (int) auth()->user()->rol_id === 1;
+        $esPropio = (int) auth()->id() === (int) $usuario->id;
+    ?>
+
      <?php $__env->slot('header', null, []); ?> 
         <h2 class="font-semibold text-xl text-white">Editar usuario</h2>
      <?php $__env->endSlot(); ?>
@@ -80,13 +85,14 @@ endif;
 unset($__errorArgs, $__bag); ?>
                 </div>
 
-                <div class="grid grid-cols-2 gap-4 mb-4">
-                    <div>
-                        <label class="block text-sm font-medium text-gray-700">Nueva contraseña (opcional)</label>
-                        <input type="password" name="password"
-                               class="mt-1 block w-full rounded-md border-gray-300"
-                               placeholder="Dejar en blanco para no cambiarla">
-                        <?php $__errorArgs = ['password'];
+                <?php if($esAdministrador || $esPropio): ?>
+                    <div class="grid grid-cols-2 gap-4 mb-4">
+                        <?php if($esPropio && !$esAdministrador): ?>
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700">Contraseña actual</label>
+                                <input type="password" name="current_password" autocomplete="current-password"
+                                       class="mt-1 block w-full rounded-md border-gray-300">
+                                <?php $__errorArgs = ['current_password'];
 $__bag = $errors->getBag($__errorArgs[1] ?? 'default');
 if ($__bag->has($__errorArgs[0])) :
 if (isset($message)) { $__messageOriginal = $message; }
@@ -94,21 +100,47 @@ $message = $__bag->first($__errorArgs[0]); ?> <p class="text-red-500 text-sm mt-
 if (isset($__messageOriginal)) { $message = $__messageOriginal; }
 endif;
 unset($__errorArgs, $__bag); ?>
+                            </div>
+                        <?php endif; ?>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700">Nueva contraseña (opcional)</label>
+                            <input type="password" name="password" autocomplete="new-password"
+                                   class="mt-1 block w-full rounded-md border-gray-300"
+                                   placeholder="Dejar en blanco para no cambiarla">
+                            <?php $__errorArgs = ['password'];
+$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
+if ($__bag->has($__errorArgs[0])) :
+if (isset($message)) { $__messageOriginal = $message; }
+$message = $__bag->first($__errorArgs[0]); ?> <p class="text-red-500 text-sm mt-1"><?php echo e($message); ?></p> <?php unset($message);
+if (isset($__messageOriginal)) { $message = $__messageOriginal; }
+endif;
+unset($__errorArgs, $__bag); ?>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700">Confirmar nueva contraseña</label>
+                            <input type="password" name="password_confirmation" autocomplete="new-password"
+                                   class="mt-1 block w-full rounded-md border-gray-300">
+                        </div>
                     </div>
-                    <div>
-                        <label class="block text-sm font-medium text-gray-700">Confirmar nueva contraseña</label>
-                        <input type="password" name="password_confirmation"
-                               class="mt-1 block w-full rounded-md border-gray-300">
-                    </div>
-                </div>
+                <?php else: ?>
+                    <p class="mb-4 text-sm text-gray-500">
+                        Solo el administrador puede cambiar la contraseña de otra cuenta.
+                    </p>
+                <?php endif; ?>
 
-                <div class="mb-6">
-                    <label class="inline-flex items-center">
-                        <input type="hidden" name="activo" value="0">
-                        <input type="checkbox" name="activo" value="1" <?php echo e(old('activo', $usuario->activo) ? 'checked' : ''); ?>>
-                        <span class="ml-2 text-sm text-gray-700">Usuario activo</span>
-                    </label>
-                </div>
+                <?php if((int) auth()->user()->rol_id === 1): ?>
+                    <div class="mb-6">
+                        <label class="inline-flex items-center">
+                            <input type="hidden" name="activo" value="0">
+                            <input type="checkbox" name="activo" value="1" <?php echo e(old('activo', $usuario->activo) ? 'checked' : ''); ?>>
+                            <span class="ml-2 text-sm text-gray-700">Usuario activo</span>
+                        </label>
+                    </div>
+                <?php else: ?>
+                    <div class="mb-6 text-sm text-gray-500">
+                        Estado: <span class="font-medium"><?php echo e($usuario->activo ? 'Activo' : 'Desactivado'); ?></span>
+                    </div>
+                <?php endif; ?>
 
                 <div class="flex justify-end gap-3">
                     <a href="<?php echo e(route('administracion.usuarios.index')); ?>" class="px-4 py-2 text-sm text-gray-600">Cancelar</a>
@@ -118,7 +150,7 @@ unset($__errorArgs, $__bag); ?>
                 </div>
             </form>
 
-            <?php if($usuario->id !== auth()->id()): ?>
+            <?php if((int) auth()->user()->rol_id === 1 && (int) $usuario->id !== (int) auth()->id()): ?>
                 <form method="POST" action="<?php echo e(route('administracion.usuarios.destroy', $usuario)); ?>"
                       onsubmit="return confirm('¿Desactivar este usuario?');" class="mt-4">
                     <?php echo csrf_field(); ?>
@@ -137,4 +169,5 @@ unset($__errorArgs, $__bag); ?>
 <?php if (isset($__componentOriginal9ac128a9029c0e4701924bd2d73d7f54)): ?>
 <?php $component = $__componentOriginal9ac128a9029c0e4701924bd2d73d7f54; ?>
 <?php unset($__componentOriginal9ac128a9029c0e4701924bd2d73d7f54); ?>
-<?php endif; ?><?php /**PATH /Users/anthonydiaz/Documents/Projecto_ERP_Seit/erp-seit-backend/resources/views/administracion/usuarios/edit.blade.php ENDPATH**/ ?>
+<?php endif; ?>
+<?php /**PATH /Users/anthonydiaz/Documents/Projecto_ERP_Seit/erp-seit-backend/resources/views/administracion/usuarios/edit.blade.php ENDPATH**/ ?>

@@ -55,22 +55,39 @@ class UsuarioController extends Controller
     public function update(Request $request, string $id)
     {
         $usuario = Usuario::findOrFail($id);
+        $esAdministrador = (int) Auth::user()->rol_id === 1;
+        $esPropio = (int) $usuario->id === (int) Auth::id();
+        $puedeCambiarPassword = $esAdministrador || $esPropio;
 
-        $validated = $request->validate([
+        $reglas = [
             'nombre' => 'required|string|max:100',
             'apellido' => 'required|string|max:100',
             'email' => 'required|email|max:150|unique:usuarios,email,' . $usuario->id,
-            'password' => 'nullable|string|min:8|confirmed',
             'rol_id' => 'required|integer|between:1,5',
-            'activo' => 'required|boolean',
-        ]);
+            'password' => $puedeCambiarPassword
+                ? 'nullable|string|min:8|confirmed'
+                : 'prohibited',
+        ];
+
+        if ($esPropio && !$esAdministrador) {
+            $reglas['current_password'] = 'required_with:password|current_password';
+        } elseif (!$puedeCambiarPassword) {
+            $reglas['current_password'] = 'prohibited';
+        }
+
+        if ($esAdministrador) {
+            $reglas['activo'] = 'required|boolean';
+        }
+
+        $validated = $request->validate($reglas);
 
         $datos = [
             'nombre' => $validated['nombre'],
             'apellido' => $validated['apellido'],
             'email' => $validated['email'],
             'rol_id' => $validated['rol_id'],
-            'activo' => $validated['activo'],
+            // Gerencia puede editar datos, pero no cambiar el estado activo.
+            'activo' => $esAdministrador ? $validated['activo'] : $usuario->activo,
         ];
 
         if (!empty($validated['password'])) {
@@ -86,9 +103,11 @@ class UsuarioController extends Controller
 
     public function destroy(string $id)
     {
+        abort_unless((int) Auth::user()->rol_id === 1, 403, 'Solo el administrador puede desactivar usuarios.');
+
         $usuario = Usuario::findOrFail($id);
 
-        if ($usuario->id === Auth::id()) {
+        if ((int) $usuario->id === (int) Auth::id()) {
             return redirect()
                 ->route('administracion.usuarios.index')
                 ->with('error', 'No puedes desactivar tu propia cuenta.');
