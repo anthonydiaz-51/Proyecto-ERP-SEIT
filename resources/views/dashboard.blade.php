@@ -1,6 +1,44 @@
 <x-app-layout>
     @php
         $rolId = auth()->user()->rol_id;
+        $marcasTecnologia = [
+            ['nombre' => 'Acer', 'archivo' => 'acer.svg'],
+            ['nombre' => 'Adata', 'archivo' => 'adata.svg'],
+            ['nombre' => 'AMD', 'archivo' => 'amd.svg'],
+            ['nombre' => 'Razer', 'archivo' => 'razer.svg'],
+            ['nombre' => 'Apple', 'archivo' => 'apple.svg'],
+            ['nombre' => 'Samsung', 'archivo' => 'samsung.svg'],
+            ['nombre' => 'ASUS', 'archivo' => 'asus.svg'],
+            ['nombre' => 'Autodesk', 'archivo' => 'autodesk.svg'],
+            ['nombre' => 'Brobotix', 'archivo' => 'Brobotix.jpg'],
+            ['nombre' => 'Cisco', 'archivo' => 'cisco.svg'],
+            ['nombre' => 'CyberPower', 'archivo' => 'cyberpower.png'],
+            ['nombre' => 'Dell', 'archivo' => 'dell.svg'],
+            ['nombre' => 'Epcom', 'archivo' => 'epcom.png'],
+            ['nombre' => 'HP', 'archivo' => 'hp.svg'],
+            ['nombre' => 'Huawei', 'archivo' => 'huawei.svg'],
+            ['nombre' => 'Intel', 'archivo' => 'intel.svg'],
+            ['nombre' => 'Kodak', 'archivo' => 'kodak.svg'],
+            ['nombre' => 'Lenovo', 'archivo' => 'lenovo.svg'],
+            ['nombre' => 'Logitech', 'archivo' => 'logitech.svg'],
+            ['nombre' => 'Polaroid', 'archivo' => 'polaroid.svg'],
+        ];
+        $marcasSeguridad = [
+            ['nombre' => 'Hikvision', 'archivo' => 'hikvision.svg'],
+            ['nombre' => 'TP-Link', 'archivo' => 'tp-link.svg'],
+            ['nombre' => 'Huawei', 'archivo' => 'huawei.svg'],
+            ['nombre' => 'Ubiquiti', 'archivo' => 'Ubiquiti.png'],
+            ['nombre' => 'Charofil', 'archivo' => 'Charofil.jpg'],
+            ['nombre' => 'Hoffman', 'archivo' => 'hoffman.png'],
+            ['nombre' => 'Kenwood', 'archivo' => 'kenwood.svg'],
+            ['nombre' => 'ZKTeco', 'archivo' => 'ZKTeco.png'],
+            ['nombre' => 'Hikvision AX Pro', 'archivo' => 'HikvisionAXPro.webp'],
+            ['nombre' => 'Fire-Lite', 'archivo' => 'fire-lite.avif'],
+            ['nombre' => 'Notifier', 'archivo' => 'notifier.svg'],
+            ['nombre' => 'Yealink', 'archivo' => 'yealink.webp'],
+            ['nombre' => 'Bose', 'archivo' => 'bose.svg'],
+            ['nombre' => 'Yamaha', 'archivo' => 'yamaha.svg'],
+        ];
     @endphp
 
     <div class="mx-auto max-w-7xl space-y-8">
@@ -65,6 +103,52 @@
                         <span class="text-white">{{ now()->format('d/m/Y') }}</span><span class="mx-2 text-[#FF2B2B]">•</span>Espacio de trabajo SEIT
                     </p>
                 </aside>
+            </div>
+        </section>
+
+        <section class="seit-brands-panel" aria-label="Marcas con las que trabaja SEIT">
+            <div class="seit-brands-heading">
+                <div>
+                    <p class="text-[11px] font-bold uppercase tracking-[0.2em] text-[#00A8FF]">Marcas</p>
+                    <h2 class="mt-1 text-lg font-semibold tracking-tight text-white">Tecnología, seguridad y conectividad</h2>
+                </div>
+                <span class="hidden text-xs text-[#81909e] sm:inline">Desliza el cursor sobre cada riel para pausarlo</span>
+            </div>
+
+            <div class="seit-brand-rail" role="group" aria-label="Marcas de tecnología y cómputo, de izquierda a derecha">
+                <div class="seit-brand-rail__track seit-brand-rail__track--right">
+                    @foreach ([false, true] as $copia)
+                        <div class="seit-brand-rail__group" @if ($copia) aria-hidden="true" @endif>
+                            @foreach ($marcasTecnologia as $marca)
+                                <div class="seit-brand-card" @if ($copia) aria-hidden="true" @endif>
+                                    <img src="{{ asset('images/marcas/' . $marca['archivo']) }}" alt="{{ $copia ? '' : $marca['nombre'] }}" class="seit-brand-card__logo" loading="lazy" decoding="async">
+                                </div>
+                            @endforeach
+                            <div class="seit-brand-card seit-brand-card--more" @if ($copia) aria-hidden="true" @endif>
+                                <span class="seit-brand-card__spark" aria-hidden="true">✦</span>
+                                <span>Entre muchas<br>más</span>
+                            </div>
+                        </div>
+                    @endforeach
+                </div>
+            </div>
+
+            <div class="seit-brand-rail" role="group" aria-label="Marcas de seguridad, redes y comunicaciones, de derecha a izquierda">
+                <div class="seit-brand-rail__track seit-brand-rail__track--left">
+                    @foreach ([false, true] as $copia)
+                        <div class="seit-brand-rail__group" @if ($copia) aria-hidden="true" @endif>
+                            @foreach ($marcasSeguridad as $marca)
+                                <div class="seit-brand-card" @if ($copia) aria-hidden="true" @endif>
+                                    <img src="{{ asset('images/marcas/' . $marca['archivo']) }}" alt="{{ $copia ? '' : $marca['nombre'] }}" class="seit-brand-card__logo" loading="lazy" decoding="async">
+                                </div>
+                            @endforeach
+                            <div class="seit-brand-card seit-brand-card--more" @if ($copia) aria-hidden="true" @endif>
+                                <span class="seit-brand-card__spark" aria-hidden="true">✦</span>
+                                <span>Entre muchas<br>más</span>
+                            </div>
+                        </div>
+                    @endforeach
+                </div>
             </div>
         </section>
 
