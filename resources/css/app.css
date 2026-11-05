@@ -356,7 +356,7 @@ tbody tr:hover {
     border-radius: 9999px;
     padding: 0.5rem 0.75rem;
     color: #dce6ee;
-    font-size: 0.8rem;
+    font-size: 0.875rem;
     font-weight: 500;
     text-decoration: none;
     transition: color 150ms ease, border-color 150ms ease, background-color 150ms ease, transform 150ms ease;

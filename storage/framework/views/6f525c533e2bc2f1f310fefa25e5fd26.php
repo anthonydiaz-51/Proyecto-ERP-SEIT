@@ -1,8 +1,8 @@
 <footer class="seit-footer mt-auto w-full border-t border-white/10 bg-[#0d0d0d] px-5 py-6 sm:px-8">
     <div class="mx-auto flex max-w-screen-2xl flex-col gap-5 sm:flex-row sm:items-center sm:justify-between">
         <div>
-            <p class="text-sm font-semibold tracking-wide text-white">SEIT GDL</p>
-            <p class="mt-1 text-xs text-gray-400">&copy; <?php echo e(date('Y')); ?> SEIT. Todos los derechos reservados. | Más de 15 años de experiencia a tu servicio.</p>
+            <p class="text-base font-semibold tracking-wide text-white">SEIT GDL</p>
+            <p class="mt-1 text-[14px] text-gray-400">&copy; <?php echo e(date('Y')); ?> SEIT. Todos los derechos reservados. | Más de 15 años de experiencia a tu servicio.</p>
         </div>
 
         <nav aria-label="Redes sociales y contacto" class="flex flex-wrap items-center gap-2">
