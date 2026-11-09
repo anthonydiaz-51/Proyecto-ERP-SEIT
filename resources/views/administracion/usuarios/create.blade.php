@@ -1,4 +1,8 @@
 <x-app-layout>
+    @php
+        $esAdministrador = (int) auth()->user()->rol_id === 1;
+    @endphp
+
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-white">Nuevo usuario</h2>
     </x-slot>
@@ -33,13 +37,18 @@
                 <div class="mb-4">
                     <label class="block text-sm font-medium text-gray-700">Rol</label>
                     <select name="rol_id" class="mt-1 block w-full rounded-md border-gray-300">
-                        <option value="1" {{ old('rol_id') == 1 ? 'selected' : '' }}>Administrador</option>
+                        @if($esAdministrador)
+                            <option value="1" {{ old('rol_id') == 1 ? 'selected' : '' }}>Administrador</option>
+                        @endif
                         <option value="2" {{ old('rol_id') == 2 ? 'selected' : '' }}>Gerencia</option>
                         <option value="3" {{ old('rol_id') == 3 ? 'selected' : '' }}>Ventas</option>
                         <option value="4" {{ old('rol_id') == 4 ? 'selected' : '' }}>Técnico</option>
                         <option value="5" {{ old('rol_id') == 5 ? 'selected' : '' }}>Practicante</option>
                     </select>
                     @error('rol_id') <p class="text-red-500 text-sm mt-1">{{ $message }}</p> @enderror
+                    @unless($esAdministrador)
+                        <p class="text-gray-500 text-xs mt-1">Solo un administrador puede asignar el rol Administrador.</p>
+                    @endunless
                 </div>
 
                 <div class="grid grid-cols-2 gap-4 mb-6">

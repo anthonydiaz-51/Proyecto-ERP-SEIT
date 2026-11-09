@@ -68,13 +68,23 @@ unset($__errorArgs, $__bag); ?>
 
                 <div class="mb-4">
                     <label class="block text-sm font-medium text-gray-700">Rol</label>
-                    <select name="rol_id" class="mt-1 block w-full rounded-md border-gray-300">
-                        <option value="1" <?php echo e(old('rol_id', $usuario->rol_id) == 1 ? 'selected' : ''); ?>>Administrador</option>
-                        <option value="2" <?php echo e(old('rol_id', $usuario->rol_id) == 2 ? 'selected' : ''); ?>>Gerencia</option>
-                        <option value="3" <?php echo e(old('rol_id', $usuario->rol_id) == 3 ? 'selected' : ''); ?>>Ventas</option>
-                        <option value="4" <?php echo e(old('rol_id', $usuario->rol_id) == 4 ? 'selected' : ''); ?>>Técnico</option>
-                        <option value="5" <?php echo e(old('rol_id', $usuario->rol_id) == 5 ? 'selected' : ''); ?>>Practicante</option>
-                    </select>
+                    <?php if($esAdministrador): ?>
+                        <select name="rol_id" class="mt-1 block w-full rounded-md border-gray-300">
+                            <option value="1" <?php echo e(old('rol_id', $usuario->rol_id) == 1 ? 'selected' : ''); ?>>Administrador</option>
+                            <option value="2" <?php echo e(old('rol_id', $usuario->rol_id) == 2 ? 'selected' : ''); ?>>Gerencia</option>
+                            <option value="3" <?php echo e(old('rol_id', $usuario->rol_id) == 3 ? 'selected' : ''); ?>>Ventas</option>
+                            <option value="4" <?php echo e(old('rol_id', $usuario->rol_id) == 4 ? 'selected' : ''); ?>>Técnico</option>
+                            <option value="5" <?php echo e(old('rol_id', $usuario->rol_id) == 5 ? 'selected' : ''); ?>>Practicante</option>
+                        </select>
+                    <?php else: ?>
+                        <?php
+                            $nombreRol = [1 => 'Administrador', 2 => 'Gerencia', 3 => 'Ventas', 4 => 'Técnico', 5 => 'Practicante'][$usuario->rol_id] ?? 'Sin rol asignado';
+                        ?>
+                        <p class="mt-1 rounded-md border border-gray-300 bg-gray-100 px-3 py-2 text-sm text-gray-700">
+                            <?php echo e($nombreRol); ?> <span class="text-xs text-gray-500"></span>
+                        </p>
+                        <p class="text-gray-500 text-xs mt-1">Solo un administrador puede cambiar roles.</p>
+                    <?php endif; ?>
                     <?php $__errorArgs = ['rol_id'];
 $__bag = $errors->getBag($__errorArgs[1] ?? 'default');
 if ($__bag->has($__errorArgs[0])) :

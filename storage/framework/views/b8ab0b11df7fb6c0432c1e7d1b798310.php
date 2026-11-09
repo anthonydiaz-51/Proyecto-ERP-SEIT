@@ -8,6 +8,10 @@
 <?php $attributes = $attributes->except(\App\View\Components\AppLayout::ignoredParameterNames()); ?>
 <?php endif; ?>
 <?php $component->withAttributes([]); ?>
+    <?php
+        $esAdministrador = (int) auth()->user()->rol_id === 1;
+    ?>
+
      <?php $__env->slot('header', null, []); ?> 
         <h2 class="font-semibold text-xl text-white">Nuevo usuario</h2>
      <?php $__env->endSlot(); ?>
@@ -63,7 +67,9 @@ unset($__errorArgs, $__bag); ?>
                 <div class="mb-4">
                     <label class="block text-sm font-medium text-gray-700">Rol</label>
                     <select name="rol_id" class="mt-1 block w-full rounded-md border-gray-300">
-                        <option value="1" <?php echo e(old('rol_id') == 1 ? 'selected' : ''); ?>>Administrador</option>
+                        <?php if($esAdministrador): ?>
+                            <option value="1" <?php echo e(old('rol_id') == 1 ? 'selected' : ''); ?>>Administrador</option>
+                        <?php endif; ?>
                         <option value="2" <?php echo e(old('rol_id') == 2 ? 'selected' : ''); ?>>Gerencia</option>
                         <option value="3" <?php echo e(old('rol_id') == 3 ? 'selected' : ''); ?>>Ventas</option>
                         <option value="4" <?php echo e(old('rol_id') == 4 ? 'selected' : ''); ?>>Técnico</option>
@@ -77,6 +83,9 @@ $message = $__bag->first($__errorArgs[0]); ?> <p class="text-red-500 text-sm mt-
 if (isset($__messageOriginal)) { $message = $__messageOriginal; }
 endif;
 unset($__errorArgs, $__bag); ?>
+                    <?php if (! ($esAdministrador)): ?>
+                        <p class="text-gray-500 text-xs mt-1">Solo un administrador puede asignar el rol Administrador.</p>
+                    <?php endif; ?>
                 </div>
 
                 <div class="grid grid-cols-2 gap-4 mb-6">
@@ -118,4 +127,5 @@ unset($__errorArgs, $__bag); ?>
 <?php if (isset($__componentOriginal9ac128a9029c0e4701924bd2d73d7f54)): ?>
 <?php $component = $__componentOriginal9ac128a9029c0e4701924bd2d73d7f54; ?>
 <?php unset($__componentOriginal9ac128a9029c0e4701924bd2d73d7f54); ?>
-<?php endif; ?><?php /**PATH /Users/anthonydiaz/Documents/Projecto_ERP_Seit/erp-seit-backend/resources/views/administracion/usuarios/create.blade.php ENDPATH**/ ?>
+<?php endif; ?>
+<?php /**PATH /Users/anthonydiaz/Documents/Projecto_ERP_Seit/erp-seit-backend/resources/views/administracion/usuarios/create.blade.php ENDPATH**/ ?>

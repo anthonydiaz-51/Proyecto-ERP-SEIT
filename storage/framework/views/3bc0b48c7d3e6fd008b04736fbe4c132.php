@@ -10,11 +10,13 @@
 <?php $component->withAttributes([]); ?>
      <?php $__env->slot('header', null, []); ?> 
         <div class="flex justify-between items-center">
-            <h2 class="font-semibold text-xl text-white">Usuarios</h2>
-            <a href="<?php echo e(route('administracion.usuarios.create')); ?>"
-               class="bg-indigo-600 text-white px-4 py-2 rounded-md text-sm hover:bg-indigo-700">
-                + Nuevo usuario
-            </a>
+            <h2 class="font-semibold text-xl text-white"><?php echo e($veTodos ? 'Usuarios' : 'Mi perfil'); ?></h2>
+            <?php if($veTodos): ?>
+                <a href="<?php echo e(route('administracion.usuarios.create')); ?>"
+                   class="bg-indigo-600 text-white px-4 py-2 rounded-md text-sm hover:bg-indigo-700">
+                    + Nuevo usuario
+                </a>
+            <?php endif; ?>
         </div>
      <?php $__env->endSlot(); ?>
 
@@ -71,7 +73,8 @@
                     <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); if ($__empty_1): ?>
                         <tr>
                             <td colspan="5" class="px-6 py-4 text-center text-sm text-gray-500">
-                                Aún no hay usuarios registrados.
+                                <?php echo e($veTodos ? 'Aún no hay usuarios registrados.' : 'No se encontró el perfil de tu cuenta.'); ?>
+
                             </td>
                         </tr>
                     <?php endif; ?>
@@ -93,4 +96,5 @@
 <?php if (isset($__componentOriginal9ac128a9029c0e4701924bd2d73d7f54)): ?>
 <?php $component = $__componentOriginal9ac128a9029c0e4701924bd2d73d7f54; ?>
 <?php unset($__componentOriginal9ac128a9029c0e4701924bd2d73d7f54); ?>
-<?php endif; ?><?php /**PATH /Users/anthonydiaz/Documents/Projecto_ERP_Seit/erp-seit-backend/resources/views/administracion/usuarios/index.blade.php ENDPATH**/ ?>
+<?php endif; ?>
+<?php /**PATH /Users/anthonydiaz/Documents/Projecto_ERP_Seit/erp-seit-backend/resources/views/administracion/usuarios/index.blade.php ENDPATH**/ ?>

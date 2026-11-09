@@ -1,11 +1,13 @@
 <x-app-layout>
     <x-slot name="header">
         <div class="flex justify-between items-center">
-            <h2 class="font-semibold text-xl text-white">Usuarios</h2>
-            <a href="{{ route('administracion.usuarios.create') }}"
-               class="bg-indigo-600 text-white px-4 py-2 rounded-md text-sm hover:bg-indigo-700">
-                + Nuevo usuario
-            </a>
+            <h2 class="font-semibold text-xl text-white">{{ $veTodos ? 'Usuarios' : 'Mi perfil' }}</h2>
+            @if($veTodos)
+                <a href="{{ route('administracion.usuarios.create') }}"
+                   class="bg-indigo-600 text-white px-4 py-2 rounded-md text-sm hover:bg-indigo-700">
+                    + Nuevo usuario
+                </a>
+            @endif
         </div>
     </x-slot>
 
@@ -60,7 +62,7 @@
                     @empty
                         <tr>
                             <td colspan="5" class="px-6 py-4 text-center text-sm text-gray-500">
-                                Aún no hay usuarios registrados.
+                                {{ $veTodos ? 'Aún no hay usuarios registrados.' : 'No se encontró el perfil de tu cuenta.' }}
                             </td>
                         </tr>
                     @endforelse

@@ -11,24 +11,41 @@ class UsuarioController extends Controller
 {
     public function index()
     {
-        $usuarios = Usuario::orderBy('nombre')->paginate(15);
+        $veTodos = in_array((int) Auth::user()->rol_id, [1, 2], true);
+        $consulta = Usuario::query();
 
-        return view('administracion.usuarios.index', compact('usuarios'));
+        if (!$veTodos) {
+            $consulta->whereKey(Auth::id());
+        }
+
+        $usuarios = $consulta->orderBy('nombre')->paginate(15);
+
+        return view('administracion.usuarios.index', compact('usuarios', 'veTodos'));
     }
 
     public function create()
     {
+        abort_unless(in_array((int) Auth::user()->rol_id, [1, 2], true), 403);
+
         return view('administracion.usuarios.create');
     }
 
     public function store(Request $request)
     {
+        abort_unless(in_array((int) Auth::user()->rol_id, [1, 2], true), 403);
+
+        $esAdministrador = (int) Auth::user()->rol_id === 1;
+
         $validated = $request->validate([
             'nombre' => 'required|string|max:100',
             'apellido' => 'required|string|max:100',
             'email' => 'required|email|max:150|unique:usuarios,email',
             'password' => 'required|string|min:8|confirmed',
-            'rol_id' => 'required|integer|between:1,5',
+            'rol_id' => $esAdministrador
+                ? 'required|integer|in:1,2,3,4,5'
+                : 'required|integer|in:2,3,4,5',
+        ], [
+            'rol_id.in' => 'Solo el administrador puede asignar el rol Administrador.',
         ]);
 
         Usuario::create([
@@ -48,6 +65,9 @@ class UsuarioController extends Controller
     public function edit(string $id)
     {
         $usuario = Usuario::findOrFail($id);
+        $veTodos = in_array((int) Auth::user()->rol_id, [1, 2], true);
+
+        abort_unless($veTodos || (int) $usuario->id === (int) Auth::id(), 403);
 
         return view('administracion.usuarios.edit', compact('usuario'));
     }
@@ -55,15 +75,21 @@ class UsuarioController extends Controller
     public function update(Request $request, string $id)
     {
         $usuario = Usuario::findOrFail($id);
-        $esAdministrador = (int) Auth::user()->rol_id === 1;
+        $rolUsuarioActual = (int) Auth::user()->rol_id;
+        $veTodos = in_array($rolUsuarioActual, [1, 2], true);
         $esPropio = (int) $usuario->id === (int) Auth::id();
+        abort_unless($veTodos || $esPropio, 403);
+
+        $esAdministrador = $rolUsuarioActual === 1;
         $puedeCambiarPassword = $esAdministrador || $esPropio;
 
         $reglas = [
             'nombre' => 'required|string|max:100',
             'apellido' => 'required|string|max:100',
             'email' => 'required|email|max:150|unique:usuarios,email,' . $usuario->id,
-            'rol_id' => 'required|integer|between:1,5',
+            'rol_id' => $esAdministrador
+                ? 'required|integer|in:1,2,3,4,5'
+                : 'prohibited',
             'password' => $puedeCambiarPassword
                 ? 'nullable|string|min:8|confirmed'
                 : 'prohibited',
@@ -79,13 +105,15 @@ class UsuarioController extends Controller
             $reglas['activo'] = 'required|boolean';
         }
 
-        $validated = $request->validate($reglas);
+        $validated = $request->validate($reglas, [
+            'rol_id.prohibited' => 'Solo el administrador puede cambiar los roles de los usuarios.',
+        ]);
 
         $datos = [
             'nombre' => $validated['nombre'],
             'apellido' => $validated['apellido'],
             'email' => $validated['email'],
-            'rol_id' => $validated['rol_id'],
+            'rol_id' => $esAdministrador ? $validated['rol_id'] : $usuario->rol_id,
             // Gerencia puede editar datos, pero no cambiar el estado activo.
             'activo' => $esAdministrador ? $validated['activo'] : $usuario->activo,
         ];

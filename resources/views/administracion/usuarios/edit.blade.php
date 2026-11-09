@@ -38,13 +38,23 @@
 
                 <div class="mb-4">
                     <label class="block text-sm font-medium text-gray-700">Rol</label>
-                    <select name="rol_id" class="mt-1 block w-full rounded-md border-gray-300">
-                        <option value="1" {{ old('rol_id', $usuario->rol_id) == 1 ? 'selected' : '' }}>Administrador</option>
-                        <option value="2" {{ old('rol_id', $usuario->rol_id) == 2 ? 'selected' : '' }}>Gerencia</option>
-                        <option value="3" {{ old('rol_id', $usuario->rol_id) == 3 ? 'selected' : '' }}>Ventas</option>
-                        <option value="4" {{ old('rol_id', $usuario->rol_id) == 4 ? 'selected' : '' }}>Técnico</option>
-                        <option value="5" {{ old('rol_id', $usuario->rol_id) == 5 ? 'selected' : '' }}>Practicante</option>
-                    </select>
+                    @if($esAdministrador)
+                        <select name="rol_id" class="mt-1 block w-full rounded-md border-gray-300">
+                            <option value="1" {{ old('rol_id', $usuario->rol_id) == 1 ? 'selected' : '' }}>Administrador</option>
+                            <option value="2" {{ old('rol_id', $usuario->rol_id) == 2 ? 'selected' : '' }}>Gerencia</option>
+                            <option value="3" {{ old('rol_id', $usuario->rol_id) == 3 ? 'selected' : '' }}>Ventas</option>
+                            <option value="4" {{ old('rol_id', $usuario->rol_id) == 4 ? 'selected' : '' }}>Técnico</option>
+                            <option value="5" {{ old('rol_id', $usuario->rol_id) == 5 ? 'selected' : '' }}>Practicante</option>
+                        </select>
+                    @else
+                        @php
+                            $nombreRol = [1 => 'Administrador', 2 => 'Gerencia', 3 => 'Ventas', 4 => 'Técnico', 5 => 'Practicante'][$usuario->rol_id] ?? 'Sin rol asignado';
+                        @endphp
+                        <p class="mt-1 rounded-md border border-gray-300 bg-gray-100 px-3 py-2 text-sm text-gray-700">
+                            {{ $nombreRol }} <span class="text-xs text-gray-500"></span>
+                        </p>
+                        <p class="text-gray-500 text-xs mt-1">Solo un administrador puede cambiar roles.</p>
+                    @endif
                     @error('rol_id') <p class="text-red-500 text-sm mt-1">{{ $message }}</p> @enderror
                 </div>
 

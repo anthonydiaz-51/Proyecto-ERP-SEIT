@@ -49,8 +49,8 @@ Route::middleware('auth')->prefix('sistemas')->name('sistemas.')->group(function
     Route::delete('ordenes-servicio/{orden}', [OrdenServicioController::class, 'destroy'])->name('ordenes.destroy');
 });
 
-Route::middleware(['auth', 'role:1,2'])->prefix('administracion')->name('administracion.')->group(function () {
-    Route::resource('usuarios', UsuarioController::class);
+Route::middleware('auth')->prefix('administracion')->name('administracion.')->group(function () {
+    Route::resource('usuarios', UsuarioController::class)->except(['show']);
 });
 
 
