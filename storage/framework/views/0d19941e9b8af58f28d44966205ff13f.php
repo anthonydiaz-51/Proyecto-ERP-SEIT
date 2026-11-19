@@ -6,6 +6,7 @@
         <meta name="csrf-token" content="<?php echo e(csrf_token()); ?>">
 
         <title><?php echo e(config('app.name', 'Laravel')); ?></title>
+        <link rel="icon" type="image/png" sizes="64x64" href="<?php echo e(asset('favicon-seit.png')); ?>">
 
         <!-- Fonts -->
         <link rel="preconnect" href="https://fonts.bunny.net">
