@@ -13,6 +13,8 @@ use App\Http\Controllers\MovimientoInventarioController;
 use App\Http\Controllers\ProveedorController;
 use App\Http\Controllers\CompraController;
 
+Route::get('/', fn () => redirect('/login'));
+
 Route::get('/', function () {
     return redirect()->route('login');
 });

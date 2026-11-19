@@ -121,7 +121,7 @@
                     <p class="text-[11px] font-bold uppercase tracking-[0.2em] text-[#00A8FF]">Marcas</p>
                     <h2 class="mt-1 text-lg font-semibold tracking-tight text-white">Tecnología, seguridad y conectividad</h2>
                 </div>
-                <span class="hidden text-xs text-[#81909e] sm:inline">Desliza el cursor sobre cada riel para pausarlo</span>
+                <span class="text-sm text-[#a7b4c1]">Algunas de las marcas con las que trabajamos</span>
             </div>
 
             <div class="seit-brand-rail" role="group" aria-label="Marcas de tecnología y cómputo, de izquierda a derecha">
