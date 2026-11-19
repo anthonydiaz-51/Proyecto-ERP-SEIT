@@ -5,6 +5,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
         <title><?php echo e(config('app.name', 'Laravel')); ?></title>
+        <link rel="icon" type="image/png" sizes="64x64" href="<?php echo e(asset('favicon-seit.png')); ?>">
 
         <!-- Fonts -->
         <link rel="preconnect" href="https://fonts.bunny.net">

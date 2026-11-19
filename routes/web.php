@@ -14,7 +14,7 @@ use App\Http\Controllers\ProveedorController;
 use App\Http\Controllers\CompraController;
 
 Route::get('/', function () {
-    return view('welcome');
+    return redirect()->route('login');
 });
 
 Route::get('/dashboard', function () {
